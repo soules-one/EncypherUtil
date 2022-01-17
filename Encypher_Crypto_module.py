@@ -1,5 +1,9 @@
 # PythonCryptoUtility Cryptography module
 # made by soules-one
+""" BIG DISCLAMER THERE
+This code only works if you let it have right parametrs, so use it on you own risk
+"""
+
 from Cryptodome.Cipher import AES, PKCS1_OAEP
 from Cryptodome.Util.Padding import pad, unpad
 from Cryptodome.Random import get_random_bytes
@@ -8,13 +12,15 @@ modern_mods = (AES.MODE_EAX, AES.MODE_SIV, AES.MODE_GCM, AES.MODE_OCB)
 classic_modes = (AES.MODE_CBC, AES.MODE_OFB, AES.MODE_CFB)
 
 
-def p_encrypt(data, key, mode=AES.MODE_CBC):
+def p_encrypt(data, key, mode=AES.MODE_CBC): #classic mode encyption/ DON'T USE SEPERATLY
     cipher = AES.new(key, mode)
     c_data = cipher.encrypt(data)
     return c_data, cipher.iv
 
 
-def p_encrypt_start(data_name, out_name, par_name="", mode=AES.MODE_CBC, password=""):
+def p_encrypt_start(data_name, out_name, par_name="", mode=AES.MODE_CBC, password=""): 
+    # Use to encrypt data in your file /
+    # if par_name is empty, parametrs will be written to out_file! P.S Password is sold seperatly!
     global modern_mods
     global classic_modes
     if mode == AES.MODE_SIV:
@@ -66,13 +72,15 @@ def p_encrypt_start(data_name, out_name, par_name="", mode=AES.MODE_CBC, passwor
             file.write(c_data)
 
 
-def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC):
+def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC): # classic mode decryption / DON'T USE SEPERATLY
     cipher = AES.new(key, mode, iv=iv)
     data = cipher.decrypt(c_data)
     return data
 
 
-def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.MODE_CBC):
+def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.MODE_CBC): 
+    # use to decrypt data in your file
+    # if par_name is empty, it will read parameters from enc_data_name file! P.S Password is sold seperatly
     global modern_mods
     global classic_modes
     if par_name == "":
@@ -118,7 +126,7 @@ def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.
         file.write(data)
 
 
-def keys_creation(name, code, size=2048):
+def keys_creation(name, code, size=2048): #Generaing pair of public and private key
     if size < 2048:
         key = RSA.generate(2048)
     else:
@@ -132,7 +140,7 @@ def keys_creation(name, code, size=2048):
     file.close()
 
 
-def keys_get_public(private_name, code):
+def keys_get_public(private_name, code): #use your private key to get public key
     with open(private_name, "rb") as file:
         p_key = file.read()
     key = RSA.importKey(p_key, passphrase=code)
@@ -140,7 +148,7 @@ def keys_get_public(private_name, code):
         file.write(key.publickey().exportKey())
 
 
-def p_encrypt_k(data, session_key, mode=AES.MODE_EAX):
+def p_encrypt_k(data, session_key, mode=AES.MODE_EAX): # modern mode encryption / DON'T USE SEPERATLY
     key = session_key
     if mode == AES.MODE_OCB:
         nonce = get_random_bytes(15)
@@ -153,7 +161,8 @@ def p_encrypt_k(data, session_key, mode=AES.MODE_EAX):
     return c_data, nonce, tag, header
 
 
-def keys_encrypt_aes(public_name, data_name, out_name, mode=AES.MODE_EAX):
+def keys_encrypt_aes(public_name, data_name, out_name, mode=AES.MODE_EAX): 
+    #use to encrypt your data with AES and key with RSA public key
     with open(data_name, "rb") as file:
         data = file.read()
     file = open(public_name, "rb")
@@ -174,14 +183,15 @@ def keys_encrypt_aes(public_name, data_name, out_name, mode=AES.MODE_EAX):
         file.write(c_data)
 
 
-def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX):
+def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX): # modern mode decryption / DON'T USE SEPERATLY
     cipher = AES.new(key, mode, nonce)
     cipher.update(header)
     data = cipher.decrypt_and_verify(c_data, tag)
     return data
 
 
-def keys_decrypt_aes(key_name, code, c_data_name, out_name, mode=AES.MODE_EAX):
+def keys_decrypt_aes(key_name, code, c_data_name, out_name, mode=AES.MODE_EAX): 
+    # use to decrypt your key with RSA private key and your data with AES
     file = open(key_name, "rb")
     private_key = RSA.importKey(file.read(), passphrase=code)
     file.close()
@@ -200,6 +210,7 @@ def keys_decrypt_aes(key_name, code, c_data_name, out_name, mode=AES.MODE_EAX):
 
 
 def keys_encrypt_rsa(public_name, data_name, out_name):
+    #use to encrypt data with RSA public key
     with open(data_name, "rb") as file:
         data = file.read()
     file = open(public_name, "rb")
@@ -211,6 +222,7 @@ def keys_encrypt_rsa(public_name, data_name, out_name):
 
 
 def keys_decrypt_rsa(key_name, code, c_data_name, out_name):
+    # use to decrypt data with RSA private key
     file = open(key_name, "rb")
     private_key = RSA.importKey(file.read(), passphrase=code)
     file.close()
