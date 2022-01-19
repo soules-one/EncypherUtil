@@ -12,7 +12,7 @@ modern_mods = (AES.MODE_EAX, AES.MODE_SIV, AES.MODE_GCM, AES.MODE_OCB)
 classic_modes = (AES.MODE_CBC, AES.MODE_OFB, AES.MODE_CFB)
 
 
-def p_encrypt(data, key, mode=AES.MODE_CBC): #classic mode encyption/ DON'T USE SEPERATLY
+def p_encrypt(data, key, mode=AES.MODE_CBC): # classic mode encyption/ DON'T USE SEPERATLY
     cipher = AES.new(key, mode)
     c_data = cipher.encrypt(data)
     return c_data, cipher.iv
@@ -126,7 +126,7 @@ def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.
         file.write(data)
 
 
-def keys_creation(name, code, size=2048): #Generaing pair of public and private key
+def keys_creation(name, code, size=2048): # Generaing pair of public and private key
     if size < 2048:
         key = RSA.generate(2048)
     else:
@@ -140,7 +140,7 @@ def keys_creation(name, code, size=2048): #Generaing pair of public and private 
     file.close()
 
 
-def keys_get_public(private_name, code): #use your private key to get public key
+def keys_get_public(private_name, code): # use your private key to get public key
     with open(private_name, "rb") as file:
         p_key = file.read()
     key = RSA.importKey(p_key, passphrase=code)
@@ -162,7 +162,7 @@ def p_encrypt_k(data, session_key, mode=AES.MODE_EAX): # modern mode encryption 
 
 
 def keys_encrypt_aes(public_name, data_name, out_name, mode=AES.MODE_EAX): 
-    #use to encrypt your data with AES and key with RSA public key
+    # use to encrypt your data with AES and key with RSA public key
     with open(data_name, "rb") as file:
         data = file.read()
     file = open(public_name, "rb")
@@ -210,7 +210,7 @@ def keys_decrypt_aes(key_name, code, c_data_name, out_name, mode=AES.MODE_EAX):
 
 
 def keys_encrypt_rsa(public_name, data_name, out_name):
-    #use to encrypt data with RSA public key
+    # use to encrypt data with RSA public key
     with open(data_name, "rb") as file:
         data = file.read()
     file = open(public_name, "rb")
