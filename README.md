@@ -4,6 +4,6 @@ EncypherUtil is written on Python 3 and using [PyCryptodome](https://github.com/
 
 Yet it has no interface, but it is planned to make both CLI and GUI(maybe will use PyQT).
 
-Compiled version will be present for Windows (Linux if I'll have enough time).
+Precompiled version will be present for Windows (Linux if I'll have enough time).
 
-Don't hesitate to make your remark, it will be usefull to me.
+Don't hesitate to make your remark, it will be usefull to me. 
