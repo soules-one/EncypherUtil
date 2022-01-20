@@ -1,6 +1,4 @@
-# EncypherUtil
-Simple encryption/decryption utility using PyCryptodome module. Working with AES and RSA algorithms.
-## THIS UTILITY IS NOT LICENSED AS CRYPTOGRAPHIC SOFTWARE! THE AUTHOR PROBABLY DOES NOT KNOW WHAT HE IS DOING! USE AT YOUR OWN RISK!
+# THIS UTILITY IS NOT LICENSED AS CRYPTOGRAPHIC SOFTWARE! THE AUTHOR PROBABLY DOES NOT KNOW WHAT HE IS DOING! USE AT YOUR OWN RISK!
 ## About utility
 EncypherUtil is written on Python 3 and using [PyCryptodome](https://github.com/Legrandin/pycryptodome) module. Utility uses AES (in EAX, SIV, GCM, OCB, CBC, OFB, CFB modes) and RSA (to encrypt key or whole file) algorithms. All en/decypher functions was written to separate module, so it makes modification easier to do.
 
