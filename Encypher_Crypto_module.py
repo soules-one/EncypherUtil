@@ -1,7 +1,7 @@
 # PythonCryptoUtility Cryptography module
 # made by soules-one
 """ BIG DISCLAMER THERE
-This code only works if you let it have right parametrs, so use it on you own risk
+This code only works if you let it have right parametrs, so use it on you own risk!
 """
 
 from Cryptodome.Cipher import AES, PKCS1_OAEP
