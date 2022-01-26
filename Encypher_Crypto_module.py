@@ -12,7 +12,8 @@ modern_mods = (AES.MODE_EAX, AES.MODE_SIV, AES.MODE_GCM, AES.MODE_OCB)
 classic_modes = (AES.MODE_CBC, AES.MODE_OFB, AES.MODE_CFB)
 
 
-def p_encrypt(data, key, mode=AES.MODE_CBC): # classic mode encryption/ DON'T USE SEPARATELY
+def p_encrypt(data, key, mode=AES.MODE_CBC):
+    # classic mode encryption/ DON'T USE SEPARATELY
     cipher = AES.new(key, mode)
     c_data = cipher.encrypt(data)
     return c_data, cipher.iv
@@ -72,7 +73,8 @@ def p_encrypt_start(data_name, out_name, par_name="", mode=AES.MODE_CBC, passwor
             file.write(c_data)
 
 
-def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC): # classic mode decryption / DON'T USE SEPARATELY
+def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC):
+    # classic mode decryption / DON'T USE SEPARATELY
     cipher = AES.new(key, mode, iv=iv)
     data = cipher.decrypt(c_data)
     return data
@@ -126,7 +128,8 @@ def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.
         file.write(data)
 
 
-def keys_creation(name, code, size=2048): # Generating pair of public and private key
+def keys_creation(name, code, size=2048):
+    # Generating pair of public and private key
     if size < 2048:
         key = RSA.generate(2048)
     else:
@@ -140,7 +143,8 @@ def keys_creation(name, code, size=2048): # Generating pair of public and privat
     file.close()
 
 
-def keys_get_public(private_name, code): # use your private key to get public key
+def keys_get_public(private_name, code):
+    # use your private key to get public key
     with open(private_name, "rb") as file:
         p_key = file.read()
     key = RSA.importKey(p_key, passphrase=code)
@@ -148,7 +152,8 @@ def keys_get_public(private_name, code): # use your private key to get public ke
         file.write(key.publickey().exportKey())
 
 
-def p_encrypt_k(data, session_key, mode=AES.MODE_EAX): # modern mode encryption / DON'T USE SEPARATELY
+def p_encrypt_k(data, session_key, mode=AES.MODE_EAX):
+    # modern mode encryption / DON'T USE SEPARATELY
     key = session_key
     if mode == AES.MODE_OCB:
         nonce = get_random_bytes(15)
@@ -183,7 +188,8 @@ def keys_encrypt_aes(public_name, data_name, out_name, mode=AES.MODE_EAX):
         file.write(c_data)
 
 
-def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX): # modern mode decryption / DON'T USE SEPARATELY
+def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX):
+    # modern mode decryption / DON'T USE SEPARATELY
     cipher = AES.new(key, mode, nonce)
     cipher.update(header)
     data = cipher.decrypt_and_verify(c_data, tag)
