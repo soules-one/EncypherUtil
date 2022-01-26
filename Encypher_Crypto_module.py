@@ -1,7 +1,7 @@
 # PythonCryptoUtility Cryptography module
 # made by soules-one
-""" BIG DISCLAMER THERE
-This code only works if you let it have right parametrs, so use it on you own risk!
+""" BIG DISCLAIMER THERE
+This code only works if you let it have right parameters, so use it on you own risk!
 """
 
 from Cryptodome.Cipher import AES, PKCS1_OAEP
@@ -12,7 +12,7 @@ modern_mods = (AES.MODE_EAX, AES.MODE_SIV, AES.MODE_GCM, AES.MODE_OCB)
 classic_modes = (AES.MODE_CBC, AES.MODE_OFB, AES.MODE_CFB)
 
 
-def p_encrypt(data, key, mode=AES.MODE_CBC): # classic mode encyption/ DON'T USE SEPERATLY
+def p_encrypt(data, key, mode=AES.MODE_CBC): # classic mode encryption/ DON'T USE SEPARATELY
     cipher = AES.new(key, mode)
     c_data = cipher.encrypt(data)
     return c_data, cipher.iv
@@ -20,7 +20,7 @@ def p_encrypt(data, key, mode=AES.MODE_CBC): # classic mode encyption/ DON'T USE
 
 def p_encrypt_start(data_name, out_name, par_name="", mode=AES.MODE_CBC, password=""): 
     # Use to encrypt data in your file /
-    # if par_name is empty, parametrs will be written to out_file! P.S Password is sold seperatly!
+    # if par_name is empty, parameters will be written to out_file! P.S Password is sold separately!
     global modern_mods
     global classic_modes
     if mode == AES.MODE_SIV:
@@ -72,7 +72,7 @@ def p_encrypt_start(data_name, out_name, par_name="", mode=AES.MODE_CBC, passwor
             file.write(c_data)
 
 
-def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC): # classic mode decryption / DON'T USE SEPERATLY
+def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC): # classic mode decryption / DON'T USE SEPARATELY
     cipher = AES.new(key, mode, iv=iv)
     data = cipher.decrypt(c_data)
     return data
@@ -80,7 +80,7 @@ def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC): # classic mode decryption / D
 
 def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.MODE_CBC): 
     # use to decrypt data in your file
-    # if par_name is empty, it will read parameters from enc_data_name file! P.S Password is sold seperatly
+    # if par_name is empty, it will read parameters from enc_data_name file! P.S Password is sold separately
     global modern_mods
     global classic_modes
     if par_name == "":
@@ -126,7 +126,7 @@ def p_decrypt_start(enc_data_name, out_name, password="", par_name="", mode=AES.
         file.write(data)
 
 
-def keys_creation(name, code, size=2048): # Generaing pair of public and private key
+def keys_creation(name, code, size=2048): # Generating pair of public and private key
     if size < 2048:
         key = RSA.generate(2048)
     else:
@@ -148,7 +148,7 @@ def keys_get_public(private_name, code): # use your private key to get public ke
         file.write(key.publickey().exportKey())
 
 
-def p_encrypt_k(data, session_key, mode=AES.MODE_EAX): # modern mode encryption / DON'T USE SEPERATLY
+def p_encrypt_k(data, session_key, mode=AES.MODE_EAX): # modern mode encryption / DON'T USE SEPARATELY
     key = session_key
     if mode == AES.MODE_OCB:
         nonce = get_random_bytes(15)
@@ -183,7 +183,7 @@ def keys_encrypt_aes(public_name, data_name, out_name, mode=AES.MODE_EAX):
         file.write(c_data)
 
 
-def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX): # modern mode decryption / DON'T USE SEPERATLY
+def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX): # modern mode decryption / DON'T USE SEPARATELY
     cipher = AES.new(key, mode, nonce)
     cipher.update(header)
     data = cipher.decrypt_and_verify(c_data, tag)
