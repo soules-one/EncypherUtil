@@ -1,4 +1,4 @@
-# PythonCryptoUtility Cryptography module
+# EncypherUtil Cryptography module
 # made by soules-one
 """ BIG DISCLAIMER THERE
 This code only works if you let it have right parameters, so use it on you own risk!
