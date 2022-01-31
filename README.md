@@ -7,4 +7,4 @@ Yet it has no interface, but it is planned to make both CLI and GUI(maybe will u
 
 Precompiled version will be present for Windows (Linux if I'll have enough time).
 
-Don't hesitate to make your remark, it will be usefull to me. 
+Don't hesitate to submit your issue, it will be usefull to me. 
