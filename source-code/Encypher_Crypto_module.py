@@ -7,6 +7,12 @@ from Cryptodome.PublicKey import RSA
 modern_mods = (AES.MODE_EAX, AES.MODE_SIV, AES.MODE_GCM, AES.MODE_OCB)
 classic_modes = (AES.MODE_CBC, AES.MODE_OFB, AES.MODE_CFB)
 
+
+def str_to_raw(s):
+    raw_map = {8:r'\b', 7:r'\a', 12:r'\f', 10:r'\n', 13:r'\r', 9:r'\t', 11:r'\v'}
+    return r''.join(i if ord(i) > 32 else raw_map.get(ord(i), i) for i in s)
+
+
 def mode_selector(a):
     if a == "EAX":
         return AES.MODE_EAX
@@ -93,6 +99,11 @@ def p_decrypt(key, iv, c_data, mode=AES.MODE_CBC):
 def p_decrypt_start(enc_data_name, out_name, par_name="", mode=AES.MODE_CBC, password=""):
     global modern_mods
     global classic_modes
+    if len(password) < 16:
+        while len(password) != 16:
+            password += " "
+    elif len(password) > 16:
+        password = password[:16]
     if par_name == "":
         key = password.encode()
         with open(enc_data_name, "rb") as file:

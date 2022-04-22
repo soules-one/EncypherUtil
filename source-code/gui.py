@@ -5,6 +5,9 @@ import fileinput
 import Encypher_Crypto_module as ECM
 
 
+
+
+
 def update_label(l, text, var):
     for i in l:
         i.config(text=text.format(var))
@@ -333,13 +336,15 @@ def get_top_help(event):
 
 
 def start_func_AES(func):
-    if "Не выбрано" in (read_file, save_file):
+    if "Не выбрано" in (read_file, save_file) or "" in (read_file, save_file):
         return messagebox.showwarning("ВНИМАНИЕ!", "Не были выбраны все необходимые параметры!")
     try:
         global var
         mode = ECM.mode_selector(var.get())
-
-        func(read_file, save_file, par_file, mode, pass_string.get())
+        if par_file in ("Не выбрано", ""):
+            func(read_file, save_file, par_name="", mode=mode, password=pass_string.get())
+        else:
+            func(read_file, save_file, par_name=par_file, mode=mode, password=pass_string.get())
         return messagebox.showinfo("Успешно", "Операция успешно выполнена!")
     except:
         return messagebox.showerror("Ошибка", "При выполнении программы произошла ошибка!")
@@ -354,7 +359,7 @@ def f1_start(event):
 
 
 def start_func_keys(func):
-    if "Ну выбрано" in (RSA_public, RSA_private):
+    if "Не выбрано" in (RSA_public, RSA_private) or "" in (RSA_public, RSA_private):
         return messagebox.showwarning("ВНИМАНИЕ!", "Не были выбраны все необходимые параметры!")
     try:
         func(RSA_private, RSA_public, pass_string.get())
@@ -371,7 +376,7 @@ def fk_start(event):
 
 
 def f2_start(event):
-    if "Ну выбрано" in (RSA_public, save_file, read_file):
+    if "Не выбрано" in (RSA_public, save_file, read_file) or "" in (RSA_public, save_file, read_file):
         return messagebox.showwarning("ВНИМАНИЕ!", "Не были выбраны все необходимые параметры!")
     try:
         if RSA_mode.get() == "1":
@@ -386,7 +391,7 @@ def f2_start(event):
 
 
 def f3_start(event):
-    if "Ну выбрано" in (RSA_private, save_file, read_file):
+    if "Ну выбрано" in (RSA_private, save_file, read_file) or "" in (RSA_private, save_file, read_file):
         return messagebox.showwarning("ВНИМАНИЕ!", "Не были выбраны все необходимые параметры!")
     try:
         if RSA_mode.get() == "1":
