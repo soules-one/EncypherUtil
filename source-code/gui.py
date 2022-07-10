@@ -342,9 +342,19 @@ def start_func_AES(func):
         global var
         mode = ECM.mode_selector(var.get())
         if par_file in ("Не выбрано", ""):
-            func(read_file, save_file, par_name="", mode=mode, password=pass_string.get())
+            if func == ECM.p_decrypt_start:
+                v = func(read_file, save_file, par_name="", mode=mode, password=pass_string.get())
+                if not v:
+                    return messagebox.showwarning("Ошибка подтверждения целостности!", "Внимание! В процессе подтверждения целостности файла произошла ошибка! Это может быть связано с повреждением данных, внешним вмешательство или ошибкой программы. Конечный файл был сохранён.")
+            else:
+                func(read_file, save_file, par_name="", mode=mode, password=pass_string.get())
         else:
-            func(read_file, save_file, par_name=par_file, mode=mode, password=pass_string.get())
+            if func == ECM.p_decrypt_start:
+                v = func(read_file, save_file, par_name=par_file, mode=mode, password=pass_string.get())
+                if not v:
+                    return messagebox.showwarning("Ошибка подтверждения целостности!", "Внимание! В процессе подтверждения целостности файла произошла ошибка! Это может быть связано с повреждением данных, внешним вмешательство или ошибкой программы. Конечный файл был сохранён.")
+            else:
+                func(read_file, save_file, par_name=par_file, mode=mode, password=pass_string.get())
         return messagebox.showinfo("Успешно", "Операция успешно выполнена!")
     except:
         return messagebox.showerror("Ошибка", "При выполнении программы произошла ошибка!")
@@ -601,7 +611,7 @@ but_help.bind("<Button-1>", get_top_help)
 but_info = Button(frame_btn, text="О программе", pady=5)
 but_info.bind("<Button-1>", get_top_info)
 
-space1 = Label(frame_btn, pady=5, text="EncypherUtil v.0.0")
+space1 = Label(frame_btn, pady=5, text="EncypherUtil v.1.1")
 space2 = Label(frame_btn, pady=0, text=" ")
 l_mode = Label(frame_btn, text="Выберите режим:", font="Calibri 14")
 

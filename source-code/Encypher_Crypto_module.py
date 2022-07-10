@@ -134,7 +134,7 @@ def p_decrypt_start(enc_data_name, out_name, par_name="", mode=AES.MODE_CBC, pas
                 else:
                     key = file.read(16)
                 header = file.read()
-        data = p_decrypt_k(key, tag, nonce, header, c_data, mode)
+        data, verified = p_decrypt_k(key, tag, nonce, header, c_data, mode)
     else:
         if par_name != "":
             with open(par_name, "rb") as file:
@@ -145,6 +145,7 @@ def p_decrypt_start(enc_data_name, out_name, par_name="", mode=AES.MODE_CBC, pas
         data = unpad(data, AES.block_size)
     with open(out_name, "wb") as file:
         file.write(data)
+    return verified
 
 
 def keys_creation(private_name, public_name, code, size=2048):
@@ -206,8 +207,14 @@ def keys_encrypt_aes(data_name, out_name, public_name, mode=AES.MODE_EAX):
 def p_decrypt_k(key, tag, nonce, header, c_data, mode=AES.MODE_EAX):
     cipher = AES.new(key, mode, nonce)
     cipher.update(header)
-    data = cipher.decrypt_and_verify(c_data, tag)
-    return data
+    data = cipher.decrypt(c_data)
+    try:
+        cipher.verify(tag)
+        verified = True
+    except:
+        verified = False
+    finally:
+        return data, verified
 
 
 def keys_decrypt_aes(c_data_name, out_name, key_name, code, mode=AES.MODE_EAX):
@@ -223,10 +230,10 @@ def keys_decrypt_aes(c_data_name, out_name, key_name, code, mode=AES.MODE_EAX):
     cipher_rsa = PKCS1_OAEP.new(private_key)
     session_key = cipher_rsa.decrypt(enc_session_key)
     nonce = cipher_rsa.decrypt(enc_nonce)
-    data = p_decrypt_k(session_key, tag, nonce, header, c_data, mode)
+    data, verified = p_decrypt_k(session_key, tag, nonce, header, c_data, mode)
     with open(out_name, "wb") as file:
         file.write(data)
-
+    return verified
 
 def keys_encrypt_rsa(data_name, out_name, public_name):
     with open(data_name, "rb") as file:
